@@ -5,12 +5,13 @@ import com.example.jakewhartonrepos.data.model.ReposItem
 import com.example.jakewhartonrepos.data.repository.datasource.RepoCacheDataSource
 import com.example.jakewhartonrepos.data.repository.datasource.RepoLocalDataSource
 import com.example.jakewhartonrepos.data.repository.datasource.RepoRemoteDataSource
+import com.example.jakewhartonrepos.domain.repository.RepoRepository
 
-class ReposRepositoryImpl(
+class ReposRepositoryImpl (
     private val repoLocalDataSource: RepoLocalDataSource,
     private val repoRemoteDataSource: RepoRemoteDataSource,
     private val repoCacheDataSource: RepoCacheDataSource
-) {
+): RepoRepository {
 
     suspend fun getReposFromAPI(pageNumber: Int, perPage: Int): List<ReposItem> {
         lateinit var reposList: List<ReposItem>
@@ -57,4 +58,7 @@ class ReposRepositoryImpl(
         return reposList
     }
 
+    override suspend fun getRepos(pageNumber: Int, perPage: Int): List<ReposItem> {
+        return getReposFromCache(pageNumber,perPage)
+    }
 }
