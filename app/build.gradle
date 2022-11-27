@@ -1,7 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'kotlin-android'
+
 }
+
 
 android {
     compileSdk 32
@@ -34,6 +39,8 @@ android {
 dependencies {
 
     def retrofit_version ="2.9.0"
+    def roomVersion = "2.3.0"
+
 
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -44,6 +51,12 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //room
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
+    //Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
 
 
     testImplementation 'junit:junit:4.13.2'
