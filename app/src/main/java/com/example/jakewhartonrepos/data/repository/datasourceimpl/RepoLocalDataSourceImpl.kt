@@ -7,9 +7,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RepoLocalDataSourceImpl (private val reposDao: ReposDao) : RepoLocalDataSource{
+class RepoLocalDataSourceImpl(private val reposDao: ReposDao) : RepoLocalDataSource {
     override suspend fun getReposFromDB(): List<ReposItem> {
-        return emptyList()
+        return reposDao.getRepos()
     }
 
     override suspend fun saveReposToDB(repos: List<ReposItem>) {

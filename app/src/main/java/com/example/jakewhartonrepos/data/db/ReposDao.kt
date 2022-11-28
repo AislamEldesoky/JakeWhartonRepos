@@ -10,9 +10,8 @@ import com.example.jakewhartonrepos.data.model.ReposItem
 interface ReposDao {
 
     @Insert(onConflict = REPLACE)
-    fun insert(repos : List<ReposItem>)
-//
-//    @Query("select * FROM ")
-//    fun getRepos: List<ReposItem>
+  suspend  fun insert(repos : List<ReposItem>)
 
+    @Query("select * FROM repos_items ")
+   suspend fun getRepos(): List<ReposItem>
 }

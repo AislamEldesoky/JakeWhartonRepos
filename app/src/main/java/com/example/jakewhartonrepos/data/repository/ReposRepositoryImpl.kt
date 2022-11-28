@@ -28,6 +28,7 @@ class ReposRepositoryImpl (
         lateinit var reposList: List<ReposItem>
 
         try {
+
             reposList = repoLocalDataSource.getReposFromDB()
         } catch (e: Exception) {
             Log.d("ERROR", e.toString())
