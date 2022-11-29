@@ -1,6 +1,7 @@
 package com.example.jakewhartonrepos.data.repository
 
 import android.util.Log
+import android.widget.Toast
 import com.example.jakewhartonrepos.data.model.ReposItem
 import com.example.jakewhartonrepos.data.repository.datasource.RepoCacheDataSource
 import com.example.jakewhartonrepos.data.repository.datasource.RepoLocalDataSource
@@ -19,6 +20,7 @@ class ReposRepositoryImpl (
             reposList = repoRemoteDataSource.getRepos(pageNumber, perPage)
         } catch (e: Exception) {
             Log.d("ERROR", e.toString())
+            reposList = emptyList()
         }
         return reposList
     }
@@ -28,7 +30,6 @@ class ReposRepositoryImpl (
         lateinit var reposList: List<ReposItem>
 
         try {
-
             reposList = repoLocalDataSource.getReposFromDB()
         } catch (e: Exception) {
             Log.d("ERROR", e.toString())
@@ -60,6 +61,16 @@ class ReposRepositoryImpl (
     }
 
     override suspend fun getRepos(pageNumber: Int, perPage: Int): List<ReposItem> {
-        return getReposFromCache(pageNumber,perPage)
+        lateinit var reposList : List<ReposItem>
+        if(pageNumber>1){
+            Log.d(">1",pageNumber.toString())
+             reposList = getReposFromAPI(pageNumber,perPage)
+            repoCacheDataSource.saveReposToCache(reposList)
+            repoLocalDataSource.saveReposToDB(reposList)
+        }else{
+            Log.d("<1",pageNumber.toString())
+            reposList =  getReposFromCache(pageNumber,perPage)
+        }
+        return reposList
     }
 }
